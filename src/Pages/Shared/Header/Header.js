@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
 
 const Header = () => {
+  const {user} = useContext(AuthContext)
     return (
         <div>
              <Navbar  collapseOnSelect className='mb-5 shadow-lg' expand="lg" bg="light" variant="light">
@@ -30,9 +33,31 @@ const Header = () => {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">More deets</Nav.Link>
+            <Nav.Link href="#deets">
+              {
+                user?.uid ?
+                <>
+                <span className='me-3'>{user?.displayName}</span> 
+
+                <button className='btn btn-primary'>LogOut</button>
+                </>
+                :
+                <>
+                   <Link to='/login'>Login</Link>
+                   <Link to='/register'>Register</Link>
+                </>
+              }
+              
+              </Nav.Link>
             <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+              {user?.photoURL  ?
+              <image 
+              style={{height: "30px"}} 
+              roundedCircle 
+              src={user.photoURL}></image>
+              :
+              <FaUser></FaUser>
+            }
             </Nav.Link>
           </Nav>
           <div className='d-lg-none'>
