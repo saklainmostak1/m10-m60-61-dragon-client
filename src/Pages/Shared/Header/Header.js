@@ -9,7 +9,16 @@ import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
 
 const Header = () => {
-  const {user} = useContext(AuthContext)
+  const {user, logOut} = useContext(AuthContext)
+  const handleLogOut = () =>{
+    logOut()
+    .then( () =>{
+
+    })
+    .catch(error =>{
+      console.error(error)
+    })
+  }
     return (
         <div>
              <Navbar  collapseOnSelect className='mb-5 shadow-lg' expand="lg" bg="light" variant="light">
@@ -39,11 +48,11 @@ const Header = () => {
                 <>
                 <span className='me-3'>{user?.displayName}</span> 
 
-                <button className='btn btn-primary'>LogOut</button>
+                <button onClick={handleLogOut} className='btn btn-primary'>LogOut</button>
                 </>
                 :
                 <>
-                   <Link to='/login'>Login</Link>
+                   <Link className='me-2' to='/login'>Login</Link>
                    <Link to='/register'>Register</Link>
                 </>
               }
